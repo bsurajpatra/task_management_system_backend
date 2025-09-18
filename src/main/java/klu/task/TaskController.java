@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import klu.task.dto.DueDateUpdateRequest;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -60,6 +62,18 @@ public class TaskController {
     @PatchMapping("/{id}/complete")
     public ResponseEntity<Task> complete(Authentication auth, @PathVariable String id, @RequestParam boolean completed) {
         return taskService.setCompleted(userId(auth), id, completed)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PatchMapping("/{id}/due-date")
+    public ResponseEntity<Task> updateDueDate(Authentication auth, @PathVariable String id, @Valid @RequestBody DueDateUpdateRequest body) {
+        if (body.getDueDate() == null) {
+            return taskService.setDueDate(userId(auth), id, null)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        }
+        return taskService.setDueDate(userId(auth), id, body.getDueDate())
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -71,6 +71,13 @@ public class TaskService {
         });
     }
 
+    public Optional<Task> setDueDate(String userId, String id, LocalDateTime dueDate) {
+        return taskRepository.findByIdAndUserId(id, userId).map(t -> {
+            t.setDueDate(dueDate);
+            return taskRepository.save(t);
+        });
+    }
+
     public boolean deleteTask(String userId, String id) {
         return taskRepository.findByIdAndUserId(id, userId).map(t -> { taskRepository.delete(t); return true; }).orElse(false);
     }
