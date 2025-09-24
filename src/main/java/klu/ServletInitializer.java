@@ -1,13 +1,4 @@
 package klu;
 
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-
-public class ServletInitializer extends SpringBootServletInitializer {
-
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(TaskManagementSystem.class);
-	}
-
-}
+// Not used for JAR packaging with embedded Tomcat. Kept as a no-op to avoid removal churn.
+public class ServletInitializer {}
